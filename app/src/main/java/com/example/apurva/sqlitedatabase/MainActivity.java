@@ -1,5 +1,6 @@
 package com.example.apurva.sqlitedatabase;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseFile db;
+    public static DatabaseFile db;
     EditText id,name,disp;
     Button b1,b2;
     @Override
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+
+                startActivity(intent);
+
                 List<CriminalRecord> list=db.getAllCriminalList();
 
                 for (CriminalRecord rec:list){
