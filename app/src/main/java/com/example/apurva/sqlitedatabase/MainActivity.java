@@ -8,14 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static DatabaseFile db;
     EditText id,name,disp;
-    Button b1,b2;
+    Button b1,b2,search,update;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         disp=findViewById(R.id.disp);
         b1=findViewById(R.id.button);
         b2=findViewById(R.id.btn_get);
+        search=findViewById(R.id.search);
+        update=findViewById(R.id.update);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +65,40 @@ public class MainActivity extends AppCompatActivity {
                 for (CriminalRecord rec:list){
                     Toast.makeText(MainActivity.this, "ID: "+rec.getId()+"\nname: "+rec.getName()+"\ndesp: "+rec.getDesp(), Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String e1=id.getText().toString();
+
+                if(e1.isEmpty()){
+                    id.setError("Please enter id");
+                }
+                else {
+                    CriminalRecord rec=db.getSingleRecord(Integer.parseInt(e1));
+                    Toast.makeText(MainActivity.this, "ID: "+rec.getId()+"\nname: "+rec.getName()+"\ndesp: "+rec.getDesp(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int e1=Integer.parseInt(id.getText().toString());
+                String ds=disp.getText().toString();
+
+                CriminalRecord rec=new CriminalRecord();
+
+                rec.setId(e1);
+                rec.setDesp(ds);
+
+                db.updateRecord(rec);
+                Toast.makeText(MainActivity.this, "Record is updated", Toast.LENGTH_SHORT).show();
+                id.setText("");
+                disp.setText("");
             }
         });
     }
